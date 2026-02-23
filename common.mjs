@@ -1,4 +1,5 @@
 import { getListenEvents, getSong } from "./data.mjs";
+import { objectToArray, sortArrayinDescendingOrder } from "./utils.mjs";
 
 // Returns the users most listened to song
 export const mostListenedToSong = (userID) => {
@@ -13,14 +14,29 @@ export const mostListenedToSong = (userID) => {
     }
   });
   //   Convert countObj to array
-  const countArr = [];
-  for (const song in countObj) {
-    countArr.push([song, countObj[song]]);
-  }
+  const countArr = objectToArray(countObj);
   //   Sort song and count in descending order
-  const sortedCount = countArr.sort((a, b) => {
-    return b[1] - a[1];
-  });
+  const sortedCount = countArr.sort(sortArrayinDescendingOrder);
   //   Return the first element from sortedCount
   return getSong(sortedCount[0][0]);
+};
+
+// Returns the users most listened to artist
+export const mostListenedToArtist = (userID) => {
+  // Track artists listen count
+  const artistsCount = {};
+  getListenEvents(userID).forEach((song) => {
+    const artist = getSong(song.song_id).artist;
+    if (artist in artistsCount) {
+      artistsCount[artist] += 1;
+    } else {
+      artistsCount[artist] = 1;
+    }
+  });
+  //   Convert artistCount object to array
+  const countArr = objectToArray(artistsCount);
+  //   Sort song and count in descending order
+  const sortedCount = countArr.sort(sortArrayinDescendingOrder);
+  //   Return the first element from sortedCount
+  return sortedCount[0][0];
 };
