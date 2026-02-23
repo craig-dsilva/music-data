@@ -40,3 +40,35 @@ export const mostListenedToArtist = (userID) => {
   //   Return the first element from sortedCount
   return sortedCount[0][0];
 };
+
+// Returns song most listened to on Friday night
+// Also returns if the song is listened on Saturday before 4am
+export const fridayNightSong = (userID) => {
+  const friday = 5;
+  const saturday = 6;
+  const fridayNightSongs = getListenEvents(userID).filter((song) => {
+    const time = new Date(song.timestamp);
+    return time.getDay() === friday && time.getHours() >= 17;
+  });
+  const saturdayMorningSongs = getListenEvents(userID).filter((song) => {
+    const time = new Date(song.timestamp);
+    return time.getDay() === saturday && time.getHours() < 4;
+  });
+  //   Tracks the most listened to song
+  const countObj = {};
+  //   Merges the friday night and saturday morning (before 4am) songs
+  const songs = [...fridayNightSongs, ...saturdayMorningSongs];
+  songs.forEach((song) => {
+    if (song.song_id in countObj) {
+      countObj[song.song_id] += 1;
+    } else {
+      countObj[song.song_id] = 1;
+    }
+  });
+  //   Converts object to array
+  const countArr = objectToArray(countObj);
+  //   Sorts the array in descending order
+  const sortedCount = countArr.sort(sortArrayinDescendingOrder);
+  //   Returns the first element i.e. most listened to song if it exists
+  return sortedCount.length > 0 ? getSong(sortedCount[0][0]) : "No songs found";
+};
