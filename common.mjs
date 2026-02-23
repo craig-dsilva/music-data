@@ -17,8 +17,10 @@ export const mostListenedToSong = (userID) => {
   const countArr = objectToArray(countObj);
   //   Sort song and count in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
-  //   Return the first element from sortedCount
-  return getSong(sortedCount[0][0]);
+  //   Get the first element from sortedCount
+  const song = getSong(sortedCount[0][0]);
+  //   Formats the string to return artist and song title
+  return `${song.artist} - ${song.title}`;
 };
 
 // Returns the users most listened to artist
@@ -69,6 +71,10 @@ export const fridayNightSong = (userID) => {
   const countArr = objectToArray(countObj);
   //   Sorts the array in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
-  //   Returns the first element i.e. most listened to song if it exists
-  return sortedCount.length > 0 ? getSong(sortedCount[0][0]) : "No songs found";
+  //   Get the first element from sortedCount
+  const song = getSong(sortedCount[0][0]);
+  //   Formats the string to return artist and song title if it exists
+  return sortedCount.length > 0
+    ? `${song.artist} - ${song.title}`
+    : "No songs found";
 };
