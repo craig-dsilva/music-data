@@ -6,6 +6,8 @@ export const mostListenedToSong = (userID) => {
   if (getListenEvents(userID).length === 0) return null;
   // Object to track song count
   const countObj = {};
+  // Object to track song by time
+  const timeObj = {};
   //   Populate countObj
   getListenEvents(userID).forEach((song) => {
     if (song.song_id in countObj) {
@@ -13,11 +15,21 @@ export const mostListenedToSong = (userID) => {
     } else {
       countObj[song.song_id] = 1;
     }
+    const songWithDuration = getSong(song.song_id).duration_seconds;
+    if (song.song_id in timeObj) {
+      timeObj[song.song_id] += songWithDuration;
+    } else {
+      timeObj[song.song_id] = songWithDuration;
+    }
   });
   //   Convert countObj to array
   const countArr = objectToArray(countObj);
   //   Sort song and count in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
+  // Convert timeObj to array
+  const timeArr = objectToArray(timeObj);
+  // Sort song by time in descending order
+  const sortedTime = timeArr.sort(sortArrayinDescendingOrder);
   // Tracks the song's genres
   const genre = [];
   sortedCount.forEach((song) => {
@@ -25,11 +37,13 @@ export const mostListenedToSong = (userID) => {
     if (!genre.includes(getSong(song[0]).genre))
       genre.push(getSong(song[0]).genre);
   });
-  //   Get the first element from sortedCount
-  const song = getSong(sortedCount[0][0]);
-  //   Returns an object with the song (artist and title) and the top 3 genres of the user
+  //   Get the first element from sortedCount and sortedTime
+  const songByCount = getSong(sortedCount[0][0]);
+  const songByTime = getSong(sortedTime[0][0]);
+  //   Returns an object with the song (artist and title) by count and time and the top 3 genres of the user
   return {
-    song: `${song.artist} - ${song.title}`,
+    songByCount: `${songByCount.artist} - ${songByCount.title}`,
+    songByTime: `${songByTime.artist} - ${songByTime.title}`,
     genres: [...genre.slice(0, 3)],
   };
 };
@@ -71,6 +85,8 @@ export const fridayNightSong = (userID) => {
   });
   //   Tracks the most listened to song
   const countObj = {};
+  // Object to track song by time
+  const timeObj = {};
   //   Merges the friday night and saturday morning (before 4am) songs
   const songs = [...fridayNightSongs, ...saturdayMorningSongs];
   songs.forEach((song) => {
@@ -79,15 +95,36 @@ export const fridayNightSong = (userID) => {
     } else {
       countObj[song.song_id] = 1;
     }
+    const songWithDuration = getSong(song.song_id).duration_seconds;
+    if (song.song_id in timeObj) {
+      timeObj[song.song_id] += songWithDuration;
+    } else {
+      timeObj[song.song_id] = songWithDuration;
+    }
   });
   //   Converts object to array
   const countArr = objectToArray(countObj);
   //   Sorts the array in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
+  // Convert timeObj to array
+  const timeArr = objectToArray(timeObj);
+  // Sort song by time in descending order
+  const sortedTime = timeArr.sort(sortArrayinDescendingOrder);
   //   Get the first element from sortedCount
   const song = sortedCount.length > 0 && getSong(sortedCount[0][0]);
-  //   Formats the string to return artist and song title if it exists
-  return song ? `${song.artist} - ${song.title}` : null;
+  //   Get the first element from sortedCount and sortedTime
+  const songByCount = sortedCount.length > 0 && getSong(sortedCount[0][0]);
+  const songByTime = sortedTime.length > 0 && getSong(sortedTime[0][0]);
+  //   Formats the string to return artist and song title if it exists by count and time
+  return {
+    songByCount: songByCount
+      ? `${songByCount.artist} - ${songByCount.title}`
+      : null,
+    songByTime: songByTime
+      ? `${songByTime.artist} - ${songByTime.title}`
+      : null,
+  };
+  // return song ? `${song.artist} - ${song.title}` : null;
 };
 
 // Returns the song with the longest continous streak
