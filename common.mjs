@@ -1,7 +1,7 @@
 import { getListenEvents, getSong } from "./data.mjs";
 import { objectToArray, sortArrayinDescendingOrder } from "./utils.mjs";
 
-// Returns the users most listened to song
+// Returns the users most listened to song and genre
 export const mostListenedToSong = (userID) => {
   // Object to track song count
   const countObj = {};
@@ -17,10 +17,20 @@ export const mostListenedToSong = (userID) => {
   const countArr = objectToArray(countObj);
   //   Sort song and count in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
+  // Tracks the song's genres
+  const genre = [];
+  sortedCount.forEach((song) => {
+    // Add the genre if it doesn't exist
+    if (!genre.includes(getSong(song[0]).genre))
+      genre.push(getSong(song[0]).genre);
+  });
   //   Get the first element from sortedCount
   const song = getSong(sortedCount[0][0]);
-  //   Formats the string to return artist and song title
-  return `${song.artist} - ${song.title}`;
+  //   Returns an object with the song (artist and title) and the top 3 genres of the user
+  return {
+    song: `${song.artist} - ${song.title}`,
+    genres: [...genre.slice(0, 3)],
+  };
 };
 
 // Returns the users most listened to artist
