@@ -44,7 +44,7 @@ export const mostListenedToArtist = (userID) => {
 };
 
 // Returns song most listened to on Friday night
-// Also returns if the song is listened on Saturday before 4am
+// Also returns if the song is listened on Saturday morning before 4am
 export const fridayNightSong = (userID) => {
   const friday = 5;
   const saturday = 6;
@@ -77,4 +77,35 @@ export const fridayNightSong = (userID) => {
   return sortedCount.length > 0
     ? `${song.artist} - ${song.title}`
     : "No songs found";
+};
+
+// Returns the song with the longest continous streak
+const longestStreak = (userID) => {
+  // Temporarily stores the song name
+  let songName;
+  // Tracks the song streak
+  let streak;
+  // Empty array to track the song name and it's streak
+  const arr = [];
+  getListenEvents(userID).forEach((song) => {
+    // Increment streak if the song id is equal to songName
+    if (song.song_id === songName) {
+      streak++;
+    } else {
+      // Push the song name and the streak to arr if the songName is true
+      songName && arr.push([songName, streak]);
+      // Update songName variable with new song id
+      songName = song.song_id;
+      // Set the default steak to 1
+      streak = 1;
+    }
+  });
+  // Sort arr with the highest streak count
+  const sorted = arr.sort((a, b) => b[1] - a[1]);
+  // Get the details of the longest streak song
+  const longestStreakSong = getSong(sorted[0][0]);
+  // Get the longest streak count of that song
+  const longestStreakCount = sorted[0][1];
+  // Returns a formatted string
+  return `${longestStreakSong.artist} - ${longestStreakSong.title} (length: ${longestStreakCount})`;
 };
