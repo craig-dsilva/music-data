@@ -80,7 +80,7 @@ export const fridayNightSong = (userID) => {
 };
 
 // Returns the song with the longest continous streak
-const longestStreak = (userID) => {
+export const longestStreak = (userID) => {
   // Temporarily stores the song name
   let songName;
   // Tracks the song streak
@@ -110,7 +110,8 @@ const longestStreak = (userID) => {
   return `${longestStreakSong.artist} - ${longestStreakSong.title} (length: ${longestStreakCount})`;
 };
 
-const everyDaySongs = (userID) => {
+// Returns the song which was played every day
+export const everyDaySong = (userID) => {
   // Mock date to avoid error
   let date = "1970-01-01";
   // Track how many days the song was listened to
@@ -138,4 +139,3 @@ const everyDaySongs = (userID) => {
   // It will return the song if it's count is more than 5
   return highestSong[1] > 5 ? `${song.artist} - ${song.title}` : null;
 };
-
