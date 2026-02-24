@@ -53,6 +53,8 @@ export const mostListenedToArtist = (userID) => {
   if (getListenEvents(userID).length === 0) return null;
   // Track artists listen count
   const artistsCount = {};
+  // Track artists listen time
+  const artistTime = {};
   getListenEvents(userID).forEach((song) => {
     const artist = getSong(song.song_id).artist;
     if (artist in artistsCount) {
@@ -60,13 +62,23 @@ export const mostListenedToArtist = (userID) => {
     } else {
       artistsCount[artist] = 1;
     }
+    const songWithDuration = getSong(song.song_id).duration_seconds;
+    if (artist in artistTime) {
+      artistTime[artist] += songWithDuration;
+    } else {
+      artistTime[artist] = songWithDuration;
+    }
   });
   //   Convert artistCount object to array
   const countArr = objectToArray(artistsCount);
+  //   Convert artistTime object to array
+  const timeArr = objectToArray(artistTime);
   //   Sort song and count in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
+  //   Sort song and time in descending order
+  const sortedTime = timeArr.sort(sortArrayinDescendingOrder);
   //   Return the first element from sortedCount
-  return sortedCount[0][0];
+  return { artistByCount: sortedCount[0][0], artistByTime: sortedTime[0][0] };
 };
 
 // Returns song most listened to on Friday night
