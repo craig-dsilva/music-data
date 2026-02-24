@@ -109,3 +109,33 @@ const longestStreak = (userID) => {
   // Returns a formatted string
   return `${longestStreakSong.artist} - ${longestStreakSong.title} (length: ${longestStreakCount})`;
 };
+
+const everyDaySongs = (userID) => {
+  // Mock date to avoid error
+  let date = "1970-01-01";
+  // Track how many days the song was listened to
+  const songDaysCountObj = {};
+  getListenEvents(userID).forEach((song) => {
+    // This ensures the song is counted once per day
+    if (
+      song.song_id in songDaysCountObj &&
+      date !== song.timestamp.split("T")[0]
+    ) {
+      songDaysCountObj[song.song_id] += 1;
+    } else if (date !== song.timestamp.split("T")[0]) {
+      songDaysCountObj[song.song_id] = 1;
+    }
+    date = song.timestamp.split("T")[0];
+  });
+  // Convert songDaysCountObj to array
+  const songDaysCountArr = objectToArray(songDaysCountObj);
+  // Sort that array by the highest count in descending order
+  const sortSongDaysCounter = songDaysCountArr.sort(sortArrayinDescendingOrder);
+  // Get the first element of the sorted array
+  const highestSong = sortSongDaysCounter[0];
+  // Get the song details of the song with the highest count
+  const song = getSong(highestSong[0]);
+  // It will return the song if it's count is more than 5
+  return highestSong[1] > 5 ? `${song.artist} - ${song.title}` : null;
+};
+
