@@ -3,6 +3,7 @@ import { objectToArray, sortArrayinDescendingOrder } from "./utils.mjs";
 
 // Returns the users most listened to song and genre
 export const mostListenedToSong = (userID) => {
+  if (getListenEvents(userID).length === 0) return null;
   // Object to track song count
   const countObj = {};
   //   Populate countObj
@@ -35,6 +36,7 @@ export const mostListenedToSong = (userID) => {
 
 // Returns the users most listened to artist
 export const mostListenedToArtist = (userID) => {
+  if (getListenEvents(userID).length === 0) return null;
   // Track artists listen count
   const artistsCount = {};
   getListenEvents(userID).forEach((song) => {
@@ -56,6 +58,7 @@ export const mostListenedToArtist = (userID) => {
 // Returns song most listened to on Friday night
 // Also returns if the song is listened on Saturday morning before 4am
 export const fridayNightSong = (userID) => {
+  if (getListenEvents(userID).length === 0) return null;
   const friday = 5;
   const saturday = 6;
   const fridayNightSongs = getListenEvents(userID).filter((song) => {
@@ -82,15 +85,14 @@ export const fridayNightSong = (userID) => {
   //   Sorts the array in descending order
   const sortedCount = countArr.sort(sortArrayinDescendingOrder);
   //   Get the first element from sortedCount
-  const song = getSong(sortedCount[0][0]);
+  const song = sortedCount.length > 0 && getSong(sortedCount[0][0]);
   //   Formats the string to return artist and song title if it exists
-  return sortedCount.length > 0
-    ? `${song.artist} - ${song.title}`
-    : "No songs found";
+  return song ? `${song.artist} - ${song.title}` : null;
 };
 
 // Returns the song with the longest continous streak
 export const longestStreak = (userID) => {
+  if (getListenEvents(userID).length === 0) return null;
   // Temporarily stores the song name
   let songName;
   // Tracks the song streak
@@ -122,6 +124,7 @@ export const longestStreak = (userID) => {
 
 // Returns the song which was played every day
 export const everyDaySong = (userID) => {
+  if (getListenEvents(userID).length === 0) return null;
   // Mock date to avoid error
   let date = "1970-01-01";
   // Track how many days the song was listened to
