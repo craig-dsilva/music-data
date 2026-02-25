@@ -136,7 +136,6 @@ export const fridayNightSong = (userID) => {
       ? `${songByTime.artist} - ${songByTime.title}`
       : null,
   };
-  // return song ? `${song.artist} - ${song.title}` : null;
 };
 
 // Returns the song with the longest continous streak
