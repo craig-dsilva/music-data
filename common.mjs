@@ -34,8 +34,8 @@ export const mostListenedToSong = (userID) => {
   const genre = [];
   sortedCount.forEach((song) => {
     // Add the genre if it doesn't exist
-    if (!genre.includes(getSong(song[0]).genre))
-      genre.push(getSong(song[0]).genre);
+    if (!genre.includes(" " + getSong(song[0]).genre))
+      genre.push(" " + getSong(song[0]).genre);
   });
   //   Get the first element from sortedCount and sortedTime
   const songByCount = getSong(sortedCount[0][0]);
@@ -136,7 +136,6 @@ export const fridayNightSong = (userID) => {
       ? `${songByTime.artist} - ${songByTime.title}`
       : null,
   };
-  // return song ? `${song.artist} - ${song.title}` : null;
 };
 
 // Returns the song with the longest continous streak
@@ -168,7 +167,7 @@ export const longestStreak = (userID) => {
   // Get the longest streak count of that song
   const longestStreakCount = sorted[0][1];
   // Returns a formatted string
-  return `${longestStreakSong.artist} - ${longestStreakSong.title} (length: ${longestStreakCount})`;
+  return `${longestStreakSong.artist} - ${longestStreakSong.title} (Length: ${longestStreakCount})`;
 };
 
 // Returns the song which was played every day
