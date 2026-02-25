@@ -82,7 +82,7 @@ const renderData = () => {
     const songByTimeA = document.createElement("p");
     songByCountQ.innerText = "Most listened to song on Friday night by count";
     songByCountA.innerText = fridayNightSong(userID).songByCount;
-    songByTimeQ.innerText = "Most listened to song Friday night by time";
+    songByTimeQ.innerText = "Most listened to song on Friday night by time";
     songByTimeA.innerText = fridayNightSong(userID).songByTime;
     fridayNightSongEl.appendChild(songByCountQ);
     fridayNightSongEl.appendChild(songByCountA);
