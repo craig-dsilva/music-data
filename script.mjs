@@ -108,7 +108,7 @@ const renderData = () => {
     const everyDaySongEl = document.createElement("div");
     const everyDaySongQ = document.createElement("b");
     const everyDaySongA = document.createElement("p");
-    everyDaySongQ.innerText = "Song listened to every day";
+    everyDaySongQ.innerText = "Songs listened to every day";
     everyDaySongA.innerText = everyDaySong(userID);
     everyDaySongEl.appendChild(everyDaySongQ);
     everyDaySongEl.appendChild(everyDaySongA);
