@@ -34,8 +34,8 @@ export const mostListenedToSong = (userID) => {
   const genre = [];
   sortedCount.forEach((song) => {
     // Add the genre if it doesn't exist
-    if (!genre.includes(getSong(song[0]).genre))
-      genre.push(getSong(song[0]).genre);
+    if (!genre.includes(" " + getSong(song[0]).genre))
+      genre.push(" " + getSong(song[0]).genre);
   });
   //   Get the first element from sortedCount and sortedTime
   const songByCount = getSong(sortedCount[0][0]);
