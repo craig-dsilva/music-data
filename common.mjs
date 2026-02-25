@@ -193,10 +193,11 @@ export const everyDaySong = (userID) => {
   const songDaysCountArr = objectToArray(songDaysCountObj);
   // Sort that array by the highest count in descending order
   const sortSongDaysCounter = songDaysCountArr.sort(sortArrayinDescendingOrder);
-  // Get the first element of the sorted array
-  const highestSong = sortSongDaysCounter[0];
-  // Get the song details of the song with the highest count
-  const song = getSong(highestSong[0]);
-  // It will return the song if it's count is more than 5
-  return highestSong[1] > 5 ? `${song.artist} - ${song.title}` : null;
+  // Filter song which have a listen day count of more than 5 days
+  const highestSongs = sortSongDaysCounter.filter((song) => song[1] > 5);
+  // Format that array elements to render artist and title
+  const everyDaySongs = highestSongs.map(
+    (song) => ` ${getSong(song[0]).artist} - ${getSong(song[0]).title}`,
+  );
+  return everyDaySongs;
 };

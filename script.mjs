@@ -104,7 +104,7 @@ const renderData = () => {
   }
 
   // Everyday songs
-  if (everyDaySong(userID)) {
+  if (everyDaySong(userID).length > 0) {
     const everyDaySongEl = document.createElement("div");
     const everyDaySongQ = document.createElement("b");
     const everyDaySongA = document.createElement("p");
