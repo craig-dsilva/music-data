@@ -69,6 +69,27 @@ const renderData = () => {
     mostListenedToArtistEl.appendChild(artistByTimeA);
     userDataEl.appendChild(mostListenedToArtistEl);
   }
+
+  // User's most listened to songs on Friday night (includes Saturday morning before 4am)
+  if (
+    fridayNightSong(userID).songByCount !== null &&
+    fridayNightSong(userID).songByTime !== null
+  ) {
+    const fridayNightSongEl = document.createElement("div");
+    const songByCountQ = document.createElement("b");
+    const songByCountA = document.createElement("p");
+    const songByTimeQ = document.createElement("b");
+    const songByTimeA = document.createElement("p");
+    songByCountQ.innerText = "Most listened to song on Friday night by count";
+    songByCountA.innerText = fridayNightSong(userID).songByCount;
+    songByTimeQ.innerText = "Most listened to song Friday night by time";
+    songByTimeA.innerText = fridayNightSong(userID).songByTime;
+    fridayNightSongEl.appendChild(songByCountQ);
+    fridayNightSongEl.appendChild(songByCountA);
+    fridayNightSongEl.appendChild(songByTimeQ);
+    fridayNightSongEl.appendChild(songByTimeA);
+    userDataEl.appendChild(fridayNightSongEl);
+  }
 };
 
 userDropdown.addEventListener("change", () => renderData());
