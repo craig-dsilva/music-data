@@ -114,6 +114,20 @@ const renderData = () => {
     everyDaySongEl.appendChild(everyDaySongA);
     userDataEl.appendChild(everyDaySongEl);
   }
+
+  // Most listened to genres
+  if (mostListenedToSong(userID)) {
+    const genres = mostListenedToSong(userID).genres;
+    const topGenresEl = document.createElement("div");
+    const topGenresQ = document.createElement("b");
+    const topGenresA = document.createElement("p");
+    topGenresQ.innerText =
+      genres.length > 1 ? `Top ${genres.length} genres` : "Top genre";
+    topGenresA.innerText = genres;
+    topGenresEl.appendChild(topGenresQ);
+    topGenresEl.appendChild(topGenresA);
+    userDataEl.appendChild(topGenresEl);
+  }
 };
 
 userDropdown.addEventListener("change", () => renderData());
