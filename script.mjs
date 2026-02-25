@@ -90,6 +90,30 @@ const renderData = () => {
     fridayNightSongEl.appendChild(songByTimeA);
     userDataEl.appendChild(fridayNightSongEl);
   }
+
+  // Longest streak song
+  if (longestStreak(userID)) {
+    const longestStreakEl = document.createElement("div");
+    const songQ = document.createElement("b");
+    const songA = document.createElement("p");
+    songQ.innerText = "Song with the longest streak";
+    songA.innerText = longestStreak(userID);
+    longestStreakEl.appendChild(songQ);
+    longestStreakEl.appendChild(songA);
+    userDataEl.appendChild(longestStreakEl);
+  }
+
+  // Everyday songs
+  if (everyDaySong(userID)) {
+    const everyDaySongEl = document.createElement("div");
+    const everyDaySongQ = document.createElement("b");
+    const everyDaySongA = document.createElement("p");
+    everyDaySongQ.innerText = "Song listened to every day";
+    everyDaySongA.innerText = everyDaySong(userID);
+    everyDaySongEl.appendChild(everyDaySongQ);
+    everyDaySongEl.appendChild(everyDaySongA);
+    userDataEl.appendChild(everyDaySongEl);
+  }
 };
 
 userDropdown.addEventListener("change", () => renderData());
