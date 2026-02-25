@@ -51,6 +51,24 @@ const renderData = () => {
     mostListenedToSongEl.appendChild(songByTimeA);
     userDataEl.appendChild(mostListenedToSongEl);
   }
+
+  // Users's most listened to artist
+  if (mostListenedToArtist(userID)) {
+    const mostListenedToArtistEl = document.createElement("div");
+    const artistByCountQ = document.createElement("b");
+    const artistByCountA = document.createElement("p");
+    const artistByTimeQ = document.createElement("b");
+    const artistByTimeA = document.createElement("p");
+    artistByCountQ.innerText = "Most listened to artist by count";
+    artistByCountA.innerText = mostListenedToArtist(userID).artistByCount;
+    artistByTimeQ.innerText = "Most listened to artist by time";
+    artistByTimeA.innerText = mostListenedToArtist(userID).artistByTime;
+    mostListenedToArtistEl.appendChild(artistByCountQ);
+    mostListenedToArtistEl.appendChild(artistByCountA);
+    mostListenedToArtistEl.appendChild(artistByTimeQ);
+    mostListenedToArtistEl.appendChild(artistByTimeA);
+    userDataEl.appendChild(mostListenedToArtistEl);
+  }
 };
 
 userDropdown.addEventListener("change", () => renderData());
