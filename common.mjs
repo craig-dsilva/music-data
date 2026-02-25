@@ -167,7 +167,7 @@ export const longestStreak = (userID) => {
   // Get the longest streak count of that song
   const longestStreakCount = sorted[0][1];
   // Returns a formatted string
-  return `${longestStreakSong.artist} - ${longestStreakSong.title} (length: ${longestStreakCount})`;
+  return `${longestStreakSong.artist} - ${longestStreakSong.title} (Length: ${longestStreakCount})`;
 };
 
 // Returns the song which was played every day
